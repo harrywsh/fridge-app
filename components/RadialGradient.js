@@ -23,7 +23,7 @@ const Gradient = (props) => {
                         <Stop offset="1" stopColor={props.outcolor} stopOpacity="1" />
                     </RadialGradient>
                 </Defs>
-                <Circle cx={props.x} cy={props.y} r={props.r} fill="url(#grad)" />
+                <Circle cx={props.x} cy={props.y} r={props.r} fill="url(#grad)" fillOpacity='0.8' />
             </Svg>
         </View>
     )
