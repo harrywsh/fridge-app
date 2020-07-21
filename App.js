@@ -1,21 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Dimensions} from 'react-native';
+import Gradient from './components/RadialGradient';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const HelloWorldApp = () => {
+    return (
+        <View style={
+            {
+                flex: 1,
+                backgroundColor: '#8a939a'
+            }
+        }>
+            <Gradient x={windowWidth / 10} y={windowHeight / 2} r={windowWidth} incolor='#b9c1c9' outcolor='#8a939a'></Gradient>
+        </View>
+    )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default HelloWorldApp;
