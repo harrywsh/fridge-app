@@ -3,6 +3,7 @@ import { View, Dimensions, Text } from 'react-native';
 import Gradient from './components/RadialGradient';
 import WaveContainer from './components/WaveContainer';
 import StatusText from './components/StatusText';
+import NotificationModule from './components/NotificationModule';
 import { Svg, G } from 'react-native-svg';
 
 const windowWidth = Dimensions.get('window').width;
@@ -19,9 +20,13 @@ const HelloWorldApp = () => {
             <View style={{position: 'absolute'}}>
                 <WaveContainer></WaveContainer>
             </View>
-            
+
             <View style={{position: 'absolute'}}>
                 <StatusText></StatusText>
+            </View>
+
+            <View style={{position: 'absolute'}}>
+                <NotificationModule></NotificationModule>
             </View>
 
         </View>
