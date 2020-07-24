@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
+import { View, Dimensions, StyleSheet, Text } from 'react-native';
 import Gradient from './RadialGradient'
 import Wave from 'react-native-waveview';
 
@@ -9,10 +9,9 @@ const containerWidth = windowWidth * 0.618 / 1.7;
 
 const WaveContainer = () => {
     return (
-        <View>
-            <View style={{ position: 'absolute' }}>
-                <Gradient x={windowWidth / 2} y={windowHeight / 3} r={containerWidth} incolor='#c2c6cc' outcolor='#a6a9bf'></Gradient>
-                <View style={_styles.container}>
+        <View style={{ position: 'absolute' }}>
+            <Gradient x={windowWidth / 2} y={windowHeight / 3} r={containerWidth} incolor='#c2c6cc' outcolor='#a6a9bf'></Gradient>
+            <View style={_styles.container}>
                 <Wave
                     style={_styles.waveBall}
                     H={containerWidth * 2 * 0.1}
@@ -25,9 +24,17 @@ const WaveContainer = () => {
                     animated={true}
                 />
             </View>
+            <View style={_styles.textContainer}>
+                <Text style={_styles.textStyle}>
+                    10
+                </Text>
+            </View>
+            <View style={_styles.percentContainer}>
+                <Text style={_styles.percentStyle}>
+                    %
+                </Text>
             </View>
         </View>
-
     )
 }
 
@@ -48,6 +55,34 @@ const _styles = StyleSheet.create({
         aspectRatio: 1,
         borderRadius: windowWidth * 0.618 / 1.7,
         overflow: 'hidden',
+    },
+    textContainer: {
+        position: 'absolute',
+        alignSelf: 'center',
+        top: windowHeight * 1 / 3 - 60,
+    },
+    percentContainer: {
+        position: 'absolute',
+        alignSelf: 'center',
+        top: windowHeight * 1 / 3 - 12.5,
+        left: windowWidth / 2 + 60,
+        width: 60
+    },
+    textStyle: {
+        fontSize: 100,
+        color: 'white',
+        fontWeight: 'bold',
+        textShadowColor: '#996fd3',
+        textShadowOffset: { width: 4, height: 5 },
+        textShadowRadius: 4
+    },
+    percentStyle: {
+        fontSize: 50,
+        color: 'white',
+        fontWeight: 'bold',
+        textShadowColor: '#996fd3',
+        textShadowOffset: { width: 4, height: 5 },
+        textShadowRadius: 4
     }
 });
 
