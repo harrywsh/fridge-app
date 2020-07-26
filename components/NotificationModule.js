@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Dimensions, View, StyleSheet, Text, Switch } from 'react-native';
-import { Timer, FlipNumber } from 'react-native-flip-timer';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
