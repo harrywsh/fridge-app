@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Dimensions, StyleSheet, Text } from 'react-native';
 import Gradient from './RadialGradient'
 import Wave from 'react-native-waveview';
@@ -7,35 +7,46 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const containerWidth = windowWidth * 0.618 / 1.7;
 
-const WaveContainer = () => {
-    return (
-        <View style={{ position: 'absolute' }}>
-            <Gradient x={windowWidth / 2} y={windowHeight / 3} r={containerWidth} incolor='#c2c6cc' outcolor='#a6a9bf'></Gradient>
-            <View style={_styles.container}>
-                <Wave
-                    style={_styles.waveBall}
-                    H={containerWidth * 2 * 0.1}
-                    speed={7000}
-                    waveParams={[
-                        { A: 25, T: 360, fill: '#b3aef2' },
-                        // { A: 35, T: 300, fill: '#0087dc' },
-                        { A: 40, T: 400, fill: '#996fd3' },
-                    ]}
-                    animated={true}
-                />
-            </View>
-            <View style={_styles.textContainer}>
-                <Text style={_styles.textStyle}>
-                    10
+class WaveContainer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            progress: 50,
+            farColor: '#b3aef2',
+            nearColor: '#996fd3'
+        };
+    }
+
+    render() {
+        return (
+            <View style={{ position: 'absolute' }}>
+                <Gradient x={windowWidth / 2} y={windowHeight / 3} r={containerWidth} incolor='#c2c6cc' outcolor='#a6a9bf'></Gradient>
+                <View style={_styles.container}>
+                    <Wave
+                        style={_styles.waveBall}
+                        H={containerWidth * 2 * this.state.progress / 100}
+                        speed={7000}
+                        waveParams={[
+                            { A: 25, T: 360, fill: this.state.farColor },
+                            // { A: 35, T: 300, fill: '#0087dc' },
+                            { A: 40, T: 400, fill: this.state.nearColor },
+                        ]}
+                        animated={true}
+                    />
+                </View>
+                <View style={_styles.textContainer}>
+                    <Text style={_styles.textStyle}>
+                        {this.state.progress}
                 </Text>
-            </View>
-            <View style={_styles.percentContainer}>
-                <Text style={_styles.percentStyle}>
-                    %
+                </View>
+                <View style={_styles.percentContainer}>
+                    <Text style={_styles.percentStyle}>
+                        %
                 </Text>
+                </View>
             </View>
-        </View>
-    )
+        )
+    }
 }
 
 const _styles = StyleSheet.create({
