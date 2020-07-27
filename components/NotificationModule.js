@@ -43,12 +43,12 @@ class NotificationModule extends Component {
             <View style={_style.RoundedRect}>
                 <Text style={_style.GrayText}>杀菌净味完成提醒</Text>
                 <View style={_style.GrayRect}>
-                    <Text style={{ position: 'absolute', top: 15, left: 17.5, fontSize: 14 }}>距净味完成还有</Text>
-                    <Text style={{ position: 'absolute', bottom: 15, left: 52.5, fontSize: 14 }}>分钟</Text>
+                    <Text style={{ position: 'absolute', top: 13, left: 17.5, fontSize: 14 }}>距净味完成还有</Text>
+                    <Text style={{ position: 'absolute', bottom: 13, left: 52.5, fontSize: 14 }}>分钟</Text>
 
-                    <Text style={{ position: 'absolute', top: 15, right: 60, fontSize: 14 }}>距杀菌完成还有</Text>
-                    <Text style={{ position: 'absolute', bottom: 15, right: 52.5, fontSize: 14 }}>分钟</Text>
-                    <Text style={{ position: 'absolute', bottom: 15, right: 142.5, fontSize: 14 }}>小时</Text>
+                    <Text style={{ position: 'absolute', top: 13, right: 60, fontSize: 14 }}>距杀菌完成还有</Text>
+                    <Text style={{ position: 'absolute', bottom: 13, right: 52.5, fontSize: 14 }}>分钟</Text>
+                    <Text style={{ position: 'absolute', bottom: 13, right: 142.5, fontSize: 14 }}>小时</Text>
 
                     <View style={[_style.TimeCard, { left: 30 }]}>
                         <Text style={_style.TimeText}>
