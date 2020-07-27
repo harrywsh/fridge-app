@@ -44,12 +44,18 @@ class NotificationModule extends Component {
             }
             if (finalStatus !== 'granted') {
                 alert('Failed to get push token for push notification!');
+                this.setState({
+                    isEnabled: false
+                });
                 return;
             }
             token = (await Notifications.getExpoPushTokenAsync()).data;
             console.log(token);
         } else {
             alert('Must use physical device for Push Notifications');
+            this.setState({
+                isEnabled: false
+            });
         }
 
         if (Platform.OS === 'android') {
