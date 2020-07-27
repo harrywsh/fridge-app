@@ -72,12 +72,12 @@ class WaveContainer extends Component {
                     />
                 </View>
                 <View style={_styles.textContainer}>
-                    <Text style={[_styles.textStyle, { textShadowColor: this.state.farColor }]}>
+                    <Text style={[_styles.textStyle, { textShadowColor: this.state.progress < 50 ? this.state.nearColor : this.state.farColor }]}>
                         {this.state.progress}
                     </Text>
                 </View>
                 <View style={_styles.percentContainer}>
-                    <Text style={[_styles.percentStyle, { textShadowColor: this.state.farColor }]}>
+                    <Text style={[_styles.percentStyle, { textShadowColor: this.state.progress < 50 ? this.state.nearColor : this.state.farColor }]}>
                         %
                 </Text>
                 </View>
