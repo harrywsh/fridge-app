@@ -4,6 +4,7 @@ import Gradient from './components/RadialGradient';
 import WaveContainer from './components/WaveContainer';
 import StatusText from './components/StatusText';
 import NotificationModule from './components/NotificationModule';
+import IntroductionModule from './components/IntroductionModule';
 import 'react-native-gesture-handler';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -31,7 +32,6 @@ const MeijuApp = () => {
                     headerTransparent: true,
                     headerTintColor: 'white',
                 }}>
-
                 </Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
@@ -68,6 +68,10 @@ const IntroductionScreen = () => {
 
             <View style={{ position: 'absolute' }}>
                 <Gradient x={windowWidth / 10} y={windowHeight / 2} r={windowWidth} incolor='#b9c1c9' outcolor='#8a939a'></Gradient>
+            </View>
+
+            <View style={{position: 'absolute'}}>
+                <IntroductionModule></IntroductionModule>
             </View>
         </View>
     )
