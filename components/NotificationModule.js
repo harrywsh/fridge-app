@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
 import { Dimensions, View, StyleSheet, Text, Switch } from 'react-native';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
@@ -9,14 +9,17 @@ const windowHeight = Dimensions.get('window').height;
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
     }),
-  });
+});
+
 
 class NotificationModule extends Component {
     timeID;
+    notificationListener;
+    responseListener;
 
     constructor(props) {
         super(props);
@@ -24,14 +27,54 @@ class NotificationModule extends Component {
 
     state = {
         isEnabled: false,
-        odorTime: 27,
-        sterTime: 3684
+        odorTime: 0,
+        sterTime: 0,
+        expoPushToken: '',
+        notification: false,
+    };
+
+    registerForPushNotifications = async () => {
+        let token;
+        if (Constants.isDevice) {
+            const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+            let finalStatus = existingStatus;
+            if (existingStatus !== 'granted') {
+                const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+                finalStatus = status;
+            }
+            if (finalStatus !== 'granted') {
+                alert('Failed to get push token for push notification!');
+                return;
+            }
+            token = (await Notifications.getExpoPushTokenAsync()).data;
+            console.log(token);
+        } else {
+            alert('Must use physical device for Push Notifications');
+        }
+
+        if (Platform.OS === 'android') {
+            Notifications.setNotificationChannelAsync('default', {
+                name: 'default',
+                importance: Notifications.AndroidImportance.MAX,
+                vibrationPattern: [0, 250, 250, 250],
+                lightColor: '#FF231F7C',
+            });
+        }
+        return token;
     };
 
     toggleSwitch = () => {
         this.setState({
             isEnabled: !this.state.isEnabled
         })
+        if (!this.state.isEnabled) {
+            this.registerForPushNotifications().then(token => this.setState({ token: token }));
+            this.notificationListener = Notifications.addNotificationReceivedListener(notification => { this.setState({ notification: notification }) });
+            this.responseListener = Notifications.addNotificationResponseReceivedListener(response => { console.log(response) });
+        } else {
+            Notifications.removeNotificationSubscription(this.notificationListener);
+            Notifications.removeNotificationSubscription(this.responseListener);
+        }
     }
 
     updateTime = () => {
@@ -49,11 +92,13 @@ class NotificationModule extends Component {
     }
 
     componentDidMount() {
+        // this.notificationSubscription = Notifications.addPushTokenListener(this.handlePushNotification);
         this.updateTime();
     }
 
     UNSAFE_componentWillMount() {
         clearTimeout(this.timeID);
+        // this.notificationSubscription.remove();
     }
 
     render() {
