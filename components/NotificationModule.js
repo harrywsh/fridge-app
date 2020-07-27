@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Dimensions, View, StyleSheet, Text, Switch } from 'react-native';
+// import { Notifications } from 'react-native-notifications';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -9,6 +10,7 @@ class NotificationModule extends Component {
 
     constructor(props) {
         super(props);
+        
     }
 
     state = {
@@ -34,7 +36,7 @@ class NotificationModule extends Component {
                     sterTime: ster
                 });
                 this.timeID = setTimeout(this.updateTime.bind(this), 5000);
-            })        
+            })
     }
 
     componentDidMount() {
@@ -87,7 +89,7 @@ class NotificationModule extends Component {
                     <View style={[_style.TimeCard, { right: 30 }]}>
                         <Text style={_style.TimeText}>
                             {(this.state.sterTime % 60) % 10}
-                    </Text>
+                        </Text>
                     </View>
 
                     <Text style={[_style.TimeText, { right: 107.5 }]}>:</Text>
