@@ -71,15 +71,13 @@ class WaveContainer extends Component {
                         animated={true}
                     />
                 </View>
-                <View style={_styles.textContainer}>
+                <View style={[_styles.textContainer, { flex: 1, flexDirection: 'row' }]}>
                     <Text style={[_styles.textStyle, { textShadowColor: this.state.progress < 50 ? this.state.nearColor : this.state.farColor }]}>
-                        {this.state.progress}
+                        {Math.floor(this.state.progress)}
                     </Text>
-                </View>
-                <View style={_styles.percentContainer}>
                     <Text style={[_styles.percentStyle, { textShadowColor: this.state.progress < 50 ? this.state.nearColor : this.state.farColor }]}>
-                        %
-                </Text>
+                        {this.state.progress >= 99 ? '.' + this.state.progress * 10 % 10 : ''}%
+                    </Text>
                 </View>
             </View>
         )
@@ -107,28 +105,23 @@ const _styles = StyleSheet.create({
     textContainer: {
         position: 'absolute',
         alignSelf: 'center',
+        justifyContent: 'center',
         top: windowHeight * 1 / 3 - 60,
-    },
-    percentContainer: {
-        position: 'absolute',
-        alignSelf: 'center',
-        top: windowHeight * 1 / 3 - 12.5,
-        left: windowWidth / 2 + 60,
-        width: 60
     },
     textStyle: {
         fontSize: 100,
         color: 'white',
         textShadowOffset: { width: 4, height: 5 },
-        textShadowRadius: 4
+        textShadowRadius: 4,
+        marginRight: 4
     },
     percentStyle: {
         fontSize: 50,
         color: 'white',
-        fontWeight: 'bold',
-        textShadowColor: '#996fd3',
-        textShadowOffset: { width: 4, height: 5 },
-        textShadowRadius: 4
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 2,
+        marginTop: 50,
+        marginRight: 2,
     }
 });
 
