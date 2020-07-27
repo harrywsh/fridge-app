@@ -5,6 +5,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 class NotificationModule extends Component {
+    timeID;
 
     constructor(props) {
         super(props);
@@ -23,19 +24,25 @@ class NotificationModule extends Component {
     }
 
     updateTime = () => {
-        var odor = Math.floor(Math.random() * 60);
-        var ster = Math.floor(Math.random() * 3600);
-        this.setState({
-            odorTime: odor,
-            sterTime: ster
-        });
+        fetch('http://127.0.0.1:5000/api/info')
+            .then(response => response.json())
+            .then(data => {
+                var odor = data['odorTime'];
+                var ster = data['sterTime'];
+                this.setState({
+                    odorTime: odor,
+                    sterTime: ster
+                });
+                this.timeID = setTimeout(this.updateTime.bind(this), 5000);
+            })        
     }
 
     componentDidMount() {
-        this.timeID = setInterval(
-            () => this.updateTime(),
-            1000
-        );
+        this.updateTime();
+    }
+
+    componentWillMount() {
+        clearTimeout(this.timeID);
     }
 
     render() {
