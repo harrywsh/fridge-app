@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import { Dimensions, View, StyleSheet, Text, Switch } from 'react-native';
-// import { Notifications } from 'react-native-notifications';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
 
 class NotificationModule extends Component {
     timeID;
 
     constructor(props) {
         super(props);
-        
     }
 
     state = {
