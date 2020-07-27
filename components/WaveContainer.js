@@ -10,6 +10,7 @@ const containerWidth = windowWidth * 0.618 / 1.7;
 class WaveContainer extends Component {
     // #b0bfc9 - green outer circle
     // #a6a9bf - purple outer circle
+    timeID;
 
     constructor(props) {
         super(props);
@@ -23,20 +24,26 @@ class WaveContainer extends Component {
     }
 
     updateProgress = () => {
-        var progress_ = Math.floor(Math.random() * 100);
-        this.setState({
-            progress: progress_,
-            gradientOut: progress_ < 50 ? '#a6a9bf' : '#b0bfc9',
-            nearColor: progress_ < 50 ? '#996fd3' : '#bffaea',
-            farColor: progress_ < 50 ? '#b3aef2' : '#84c4d7'
-        });
+        fetch('http://127.0.0.1:5000/api/info')
+            .then(response => response.json())
+            .then(data => {
+                var progress_ = data['prog'];
+                this.setState({
+                    progress: progress_,
+                    gradientOut: progress_ < 50 ? '#a6a9bf' : '#b0bfc9',
+                    nearColor: progress_ < 50 ? '#996fd3' : '#bffaea',
+                    farColor: progress_ < 50 ? '#b3aef2' : '#84c4d7'
+                });
+                this.timeID = setTimeout(this.updateProgress.bind(this), 5000);
+            })        
     }
 
     componentDidMount() {
-        this.timeID = setInterval(
-            () => this.updateProgress(),
-            1000
-        );
+        this.updateProgress();
+    }
+
+    componentWillMount() {
+        clearTimeout(this.timeID);
     }
 
 
