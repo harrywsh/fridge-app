@@ -8,39 +8,70 @@ const windowHeight = Dimensions.get('window').height;
 const containerWidth = windowWidth * 0.618 / 1.7;
 
 class WaveContainer extends Component {
+    // #b0bfc9 - green outer circle
+    // #a6a9bf - purple outer circle
+
     constructor(props) {
         super(props);
         this.state = {
             progress: 50,
-            farColor: '#b3aef2',
-            nearColor: '#996fd3'
+            nearColor: '#bffaea',
+            farColor: '#84c4d7',
+            gradientOut: '#b0bfc9'
         };
+        this.updateProgress = this.updateProgress.bind(this);
     }
+
+    updateProgress = () => {
+        var progress_ = Math.floor(Math.random() * 100);
+        this.setState({
+            progress: progress_,
+            gradientOut: progress_ < 50 ? '#a6a9bf' : '#b0bfc9',
+            nearColor: progress_ < 50 ? '#996fd3' : '#bffaea',
+            farColor: progress_ < 50 ? '#b3aef2' : '#84c4d7'
+        });
+    }
+
+    componentDidMount() {
+        this.timeID = setInterval(
+            () => this.updateProgress(),
+            1000
+        );
+    }
+
 
     render() {
         return (
             <View style={{ position: 'absolute' }}>
-                <Gradient x={windowWidth / 2} y={windowHeight / 3} r={containerWidth} incolor='#c2c6cc' outcolor='#a6a9bf'></Gradient>
+                <Gradient x={windowWidth / 2} y={windowHeight / 3} r={containerWidth} incolor='#c2c6cc' outcolor={this.state.gradientOut}></Gradient>
                 <View style={_styles.container}>
-                    <Wave
+                    <Wave ref={(wave) => {
+                            wave &&
+                            wave.setWaterHeight(containerWidth * 2 * this.state.progress / 100);
+                            wave &&
+                            wave.setWaveParams([
+                                { A: 25, T: 360, fill: this.state.farColor },
+                                { A: 40, T: 400, fill: this.state.nearColor },
+                            ]);
+                            return wave;
+                        }}
                         style={_styles.waveBall}
                         H={containerWidth * 2 * this.state.progress / 100}
                         speed={7000}
                         waveParams={[
                             { A: 25, T: 360, fill: this.state.farColor },
-                            // { A: 35, T: 300, fill: '#0087dc' },
                             { A: 40, T: 400, fill: this.state.nearColor },
                         ]}
                         animated={true}
                     />
                 </View>
                 <View style={_styles.textContainer}>
-                    <Text style={_styles.textStyle}>
+                    <Text style={[_styles.textStyle, { textShadowColor: this.state.farColor }]}>
                         {this.state.progress}
-                </Text>
+                    </Text>
                 </View>
                 <View style={_styles.percentContainer}>
-                    <Text style={_styles.percentStyle}>
+                    <Text style={[_styles.percentStyle, { textShadowColor: this.state.farColor }]}>
                         %
                 </Text>
                 </View>
@@ -82,8 +113,6 @@ const _styles = StyleSheet.create({
     textStyle: {
         fontSize: 100,
         color: 'white',
-        fontWeight: 'bold',
-        textShadowColor: '#996fd3',
         textShadowOffset: { width: 4, height: 5 },
         textShadowRadius: 4
     },
