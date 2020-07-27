@@ -35,7 +35,7 @@ class WaveContainer extends Component {
                     farColor: progress_ < 50 ? '#b3aef2' : '#84c4d7'
                 });
                 this.timeID = setTimeout(this.updateProgress.bind(this), 5000);
-            })        
+            });
     }
 
     componentDidMount() {
@@ -46,22 +46,21 @@ class WaveContainer extends Component {
         clearTimeout(this.timeID);
     }
 
-
     render() {
         return (
             <View style={{ position: 'absolute' }}>
                 <Gradient x={windowWidth / 2} y={windowHeight / 3} r={containerWidth} incolor='#c2c6cc' outcolor={this.state.gradientOut}></Gradient>
                 <View style={_styles.container}>
                     <Wave ref={(wave) => {
-                            wave &&
+                        wave &&
                             wave.setWaterHeight(containerWidth * 2 * this.state.progress / 100);
-                            wave &&
+                        wave &&
                             wave.setWaveParams([
                                 { A: 25, T: 360, fill: this.state.farColor },
                                 { A: 40, T: 400, fill: this.state.nearColor },
                             ]);
-                            return wave;
-                        }}
+                        return wave;
+                    }}
                         style={_styles.waveBall}
                         H={containerWidth * 2 * this.state.progress / 100}
                         speed={7000}
