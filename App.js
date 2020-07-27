@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, Dimensions, Button, } from 'react-native';
+import { View, Dimensions, Button, TouchableHighlight, Text } from 'react-native';
 import Gradient from './components/RadialGradient';
 import WaveContainer from './components/WaveContainer';
 import StatusText from './components/StatusText';
 import NotificationModule from './components/NotificationModule';
 import IntroductionModule from './components/IntroductionModule';
 import 'react-native-gesture-handler';
-import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
 const windowWidth = Dimensions.get('window').width;
@@ -22,7 +23,21 @@ const MeijuApp = () => {
                     headerTransparent: true,
                     headerTintColor: 'white',
                     headerRight: () => (
-                        <Button title='?' onPress={() => navigation.navigate('introduction')} color='white'></Button>
+                        // <Button title='?' onPress={() => navigation.navigate('introduction')} color='white'></Button>
+                        <TouchableOpacity onPress={() => navigation.navigate('introduction')}
+                            style={{
+                                borderWidth: 2,
+                                borderColor: '#ffffff',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: 26,
+                                height: 26,
+                                backgroundColor: 'rgba(0,0,0,0)',
+                                borderRadius: 13,
+                                marginRight: 10,
+                            }} activeOpacity={.7}>
+                            <Text style={{color: 'white', fontSize: 18}}>?</Text>
+                        </TouchableOpacity>
                     )
                 })}>
 
@@ -70,7 +85,7 @@ const IntroductionScreen = () => {
                 <Gradient x={windowWidth / 10} y={windowHeight / 2} r={windowWidth} incolor='#b9c1c9' outcolor='#8a939a'></Gradient>
             </View>
 
-            <View style={{position: 'absolute'}}>
+            <View style={{ position: 'absolute' }}>
                 <IntroductionModule></IntroductionModule>
             </View>
         </View>
