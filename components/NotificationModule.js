@@ -22,6 +22,22 @@ class NotificationModule extends Component {
         })
     }
 
+    updateTime = () => {
+        var odor = Math.floor(Math.random() * 60);
+        var ster = Math.floor(Math.random() * 3600);
+        this.setState({
+            odorTime: odor,
+            sterTime: ster
+        });
+    }
+
+    componentDidMount() {
+        this.timeID = setInterval(
+            () => this.updateTime(),
+            1000
+        );
+    }
+
     render() {
         return (
             <View style={_style.RoundedRect}>
