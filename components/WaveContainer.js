@@ -42,7 +42,7 @@ class WaveContainer extends Component {
         this.updateProgress();
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         clearTimeout(this.timeID);
     }
 
