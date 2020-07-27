@@ -52,7 +52,7 @@ class NotificationModule extends Component {
         this.updateTime();
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         clearTimeout(this.timeID);
     }
 
