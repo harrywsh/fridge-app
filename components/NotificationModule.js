@@ -112,12 +112,12 @@ class NotificationModule extends Component {
             <View style={_style.RoundedRect}>
                 <Text style={_style.GrayText}>杀菌净味完成提醒</Text>
                 <View style={_style.GrayRect}>
-                    <Text style={{ position: 'absolute', top: 13, left: this.state.odorTime == 0 ? 30.5 : 17.5, fontSize: 14, color: this.state.odorTime == 0 ? '#329c4e' : 'black'}}>
+                    <Text style={{ position: 'absolute', top: 13, left: this.state.odorTime == 0 ? 30.5 : 17.5, fontSize: 14, color: this.state.odorTime == 0 ? '#1c8fd7' : 'black'}}>
                         {this.state.odorTime == 0 ? '净味已完成' : '距净味完成还有'}
                     </Text>
                     <Text style={{ position: 'absolute', bottom: 13, left: 52.5, fontSize: 14 }}>分钟</Text>
 
-                    <Text style={{ position: 'absolute', top: 13, right: this.state.sterTime == 0 ? 75 : 60, fontSize: 14, color: this.state.sterTime == 0 ? '#329c4e' : 'black' }}>
+                    <Text style={{ position: 'absolute', top: 13, right: this.state.sterTime == 0 ? 75 : 60, fontSize: 14, color: this.state.sterTime == 0 ? '#1c8fd7' : 'black' }}>
                         {this.state.sterTime == 0 ? '杀菌已完成' : '距杀菌完成还有'}
                     </Text>
                     <Text style={{ position: 'absolute', bottom: 13, right: 52.5, fontSize: 14 }}>分钟</Text>
