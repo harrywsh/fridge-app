@@ -14,7 +14,7 @@ const StatusText = () => {
                 fontSize="18"
                 fontWeight="bold"
                 x={windowWidth / 2}
-                y={windowHeight * 0.61}
+                y={windowHeight * 0.58}
                 textAnchor="middle"
             >
                 暴风式离子释放中
@@ -25,7 +25,7 @@ const StatusText = () => {
                 fontSize="12"
                 fontWeight="bold"
                 x={windowWidth / 2}
-                y={windowHeight * 0.64}
+                y={windowHeight * 0.61}
                 textAnchor="middle"
             >
                 细菌分子正在被快速电解
