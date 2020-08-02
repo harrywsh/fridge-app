@@ -27,8 +27,8 @@ class WaveContainer extends Component {
         fetch('http://127.0.0.1:5000/api/info')
             .then(response => response.json())
             .then(data => {
-                var progress_ = 97;
-                var odorTime = 0;
+                var progress_ = data['prog'];
+                var odorTime = data['odorTime'];
                 this.setState({
                     progress: progress_,
                     gradientOut: odorTime != 0 ? '#9a8a8a' : (progress_ < 99.9 ? '#c3d1d3' : '#b0bfc9'),
