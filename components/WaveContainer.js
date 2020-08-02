@@ -35,7 +35,7 @@ class WaveContainer extends Component {
                     nearColor: odorTime != 0 ? '#fcd142' : (progress_ < 50 ? '#d2f6f1' : '#acf0e1'),
                     farColor: odorTime != 0 ? '#f7a118' : (progress_ < 50 ? '#83c4d8' : '#77c4c8')
                 });
-                this.timeID = setTimeout(this.updateProgress.bind(this), 5000);
+                this.timeID = setTimeout(this.updateProgress.bind(this), 11800);
             });
     }
 

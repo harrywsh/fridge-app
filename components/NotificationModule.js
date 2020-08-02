@@ -93,7 +93,7 @@ class NotificationModule extends Component {
                     odorTime: odor,
                     sterTime: ster
                 });
-                this.timeID = setTimeout(this.updateTime.bind(this), 5000);
+                this.timeID = setTimeout(this.updateTime.bind(this), 11800);
             })
     }
 
