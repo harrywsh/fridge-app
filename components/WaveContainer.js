@@ -27,12 +27,13 @@ class WaveContainer extends Component {
         fetch('http://127.0.0.1:5000/api/info')
             .then(response => response.json())
             .then(data => {
-                var progress_ = data['prog'];
+                var progress_ = 97;
+                var odorTime = 0;
                 this.setState({
                     progress: progress_,
-                    gradientOut: progress_ < 50 ? '#a6a9bf' : '#b0bfc9',
-                    nearColor: progress_ < 50 ? '#996fd3' : '#bffaea',
-                    farColor: progress_ < 50 ? '#b3aef2' : '#84c4d7'
+                    gradientOut: odorTime != 0 ? '#9a8a8a' : (progress_ < 50 ? '#c3d1d3' : '#b0bfc9'),
+                    nearColor: odorTime != 0 ? '#fcd142' : (progress_ < 50 ? '#d2f6f1' : '#acf0e1'),
+                    farColor: odorTime != 0 ? '#f7a118' : (progress_ < 50 ? '#83c4d8' : '#77c4c8')
                 });
                 this.timeID = setTimeout(this.updateProgress.bind(this), 5000);
             });
