@@ -28,7 +28,7 @@ class StatusText extends Component {
                     progress: progress_,
                     odorTime: odorTime
                 });
-                this.timeID = setTimeout(this.updateStatus.bind(this), 1000);
+                this.timeID = setTimeout(this.updateStatus.bind(this), 11800);
             });
     }
 
