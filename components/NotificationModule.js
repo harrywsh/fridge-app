@@ -1,11 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
 import { Dimensions, View, StyleSheet, Text, Switch } from 'react-native';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+    }),
+});
+
+
 class NotificationModule extends Component {
     timeID;
+    notificationListener;
+    responseListener;
 
     constructor(props) {
         super(props);
@@ -13,14 +27,60 @@ class NotificationModule extends Component {
 
     state = {
         isEnabled: false,
-        odorTime: 27,
-        sterTime: 3684
+        odorTime: 0,
+        sterTime: 0,
+        expoPushToken: '',
+        notification: false,
+    };
+
+    registerForPushNotifications = async () => {
+        let token;
+        if (Constants.isDevice) {
+            const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+            let finalStatus = existingStatus;
+            if (existingStatus !== 'granted') {
+                const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+                finalStatus = status;
+            }
+            if (finalStatus !== 'granted') {
+                alert('Failed to get push token for push notification!');
+                this.setState({
+                    isEnabled: false
+                });
+                return;
+            }
+            token = (await Notifications.getExpoPushTokenAsync()).data;
+            console.log(token);
+        } else {
+            alert('Must use physical device for Push Notifications');
+            this.setState({
+                isEnabled: false
+            });
+        }
+
+        if (Platform.OS === 'android') {
+            Notifications.setNotificationChannelAsync('default', {
+                name: 'default',
+                importance: Notifications.AndroidImportance.MAX,
+                vibrationPattern: [0, 250, 250, 250],
+                lightColor: '#FF231F7C',
+            });
+        }
+        return token;
     };
 
     toggleSwitch = () => {
         this.setState({
             isEnabled: !this.state.isEnabled
         })
+        if (!this.state.isEnabled) {
+            this.registerForPushNotifications().then(token => this.setState({ token: token }));
+            this.notificationListener = Notifications.addNotificationReceivedListener(notification => { this.setState({ notification: notification }) });
+            this.responseListener = Notifications.addNotificationResponseReceivedListener(response => { console.log(response) });
+        } else {
+            Notifications.removeNotificationSubscription(this.notificationListener);
+            Notifications.removeNotificationSubscription(this.responseListener);
+        }
     }
 
     updateTime = () => {
@@ -33,16 +93,18 @@ class NotificationModule extends Component {
                     odorTime: odor,
                     sterTime: ster
                 });
-                this.timeID = setTimeout(this.updateTime.bind(this), 5000);
-            })        
+                this.timeID = setTimeout(this.updateTime.bind(this), 11800);
+            })
     }
 
     componentDidMount() {
+        // this.notificationSubscription = Notifications.addPushTokenListener(this.handlePushNotification);
         this.updateTime();
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         clearTimeout(this.timeID);
+        // this.notificationSubscription.remove();
     }
 
     render() {
@@ -50,10 +112,14 @@ class NotificationModule extends Component {
             <View style={_style.RoundedRect}>
                 <Text style={_style.GrayText}>杀菌净味完成提醒</Text>
                 <View style={_style.GrayRect}>
-                    <Text style={{ position: 'absolute', top: 13, left: 17.5, fontSize: 14 }}>距净味完成还有</Text>
+                    <Text style={{ position: 'absolute', top: 13, left: this.state.odorTime == 0 ? 30.5 : 17.5, fontSize: 14, color: this.state.odorTime == 0 ? '#1c8fd7' : 'black'}}>
+                        {this.state.odorTime == 0 ? '净味已完成' : '距净味完成还有'}
+                    </Text>
                     <Text style={{ position: 'absolute', bottom: 13, left: 52.5, fontSize: 14 }}>分钟</Text>
 
-                    <Text style={{ position: 'absolute', top: 13, right: 60, fontSize: 14 }}>距杀菌完成还有</Text>
+                    <Text style={{ position: 'absolute', top: 13, right: this.state.sterTime == 0 ? 75 : 60, fontSize: 14, color: this.state.sterTime == 0 ? '#1c8fd7' : 'black' }}>
+                        {this.state.sterTime == 0 ? '杀菌已完成' : '距杀菌完成还有'}
+                    </Text>
                     <Text style={{ position: 'absolute', bottom: 13, right: 52.5, fontSize: 14 }}>分钟</Text>
                     <Text style={{ position: 'absolute', bottom: 13, right: 142.5, fontSize: 14 }}>小时</Text>
 
@@ -87,7 +153,7 @@ class NotificationModule extends Component {
                     <View style={[_style.TimeCard, { right: 30 }]}>
                         <Text style={_style.TimeText}>
                             {(this.state.sterTime % 60) % 10}
-                    </Text>
+                        </Text>
                     </View>
 
                     <Text style={[_style.TimeText, { right: 107.5 }]}>:</Text>

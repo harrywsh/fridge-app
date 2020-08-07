@@ -28,13 +28,14 @@ class WaveContainer extends Component {
             .then(response => response.json())
             .then(data => {
                 var progress_ = data['prog'];
+                var odorTime = data['odorTime'];
                 this.setState({
                     progress: progress_,
-                    gradientOut: progress_ < 50 ? '#a6a9bf' : '#b0bfc9',
-                    nearColor: progress_ < 50 ? '#996fd3' : '#bffaea',
-                    farColor: progress_ < 50 ? '#b3aef2' : '#84c4d7'
+                    gradientOut: odorTime != 0 ? '#9a8a8a' : (progress_ < 99.9 ? '#c3d1d3' : '#b0bfc9'),
+                    nearColor: odorTime != 0 ? '#fcd142' : (progress_ < 99.9 ? '#d2f6f1' : '#acf0e1'),
+                    farColor: odorTime != 0 ? '#f7a118' : (progress_ < 99.9 ? '#83c4d8' : '#77c4c8')
                 });
-                this.timeID = setTimeout(this.updateProgress.bind(this), 5000);
+                this.timeID = setTimeout(this.updateProgress.bind(this), 11800);
             });
     }
 
@@ -42,7 +43,7 @@ class WaveContainer extends Component {
         this.updateProgress();
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         clearTimeout(this.timeID);
     }
 
@@ -71,15 +72,13 @@ class WaveContainer extends Component {
                         animated={true}
                     />
                 </View>
-                <View style={_styles.textContainer}>
-                    <Text style={[_styles.textStyle, { textShadowColor: this.state.farColor }]}>
-                        {this.state.progress}
+                <View style={[_styles.textContainer, { flex: 1, flexDirection: 'row' }]}>
+                    <Text style={[_styles.textStyle, { textShadowColor: this.state.progress < 50 ? this.state.nearColor : this.state.farColor }]}>
+                        {Math.floor(this.state.progress)}
                     </Text>
-                </View>
-                <View style={_styles.percentContainer}>
-                    <Text style={[_styles.percentStyle, { textShadowColor: this.state.farColor }]}>
-                        %
-                </Text>
+                    <Text style={[_styles.percentStyle, { textShadowColor: this.state.progress < 50 ? this.state.nearColor : this.state.farColor }]}>
+                        {this.state.progress >= 99 ? '.' + this.state.progress * 10 % 10 : ''}%
+                    </Text>
                 </View>
             </View>
         )
@@ -107,28 +106,23 @@ const _styles = StyleSheet.create({
     textContainer: {
         position: 'absolute',
         alignSelf: 'center',
+        justifyContent: 'center',
         top: windowHeight * 1 / 3 - 60,
-    },
-    percentContainer: {
-        position: 'absolute',
-        alignSelf: 'center',
-        top: windowHeight * 1 / 3 - 12.5,
-        left: windowWidth / 2 + 60,
-        width: 60
     },
     textStyle: {
         fontSize: 100,
         color: 'white',
         textShadowOffset: { width: 4, height: 5 },
-        textShadowRadius: 4
+        textShadowRadius: 4,
+        marginRight: 4
     },
     percentStyle: {
         fontSize: 50,
         color: 'white',
-        fontWeight: 'bold',
-        textShadowColor: '#996fd3',
-        textShadowOffset: { width: 4, height: 5 },
-        textShadowRadius: 4
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 2,
+        marginTop: 50,
+        marginRight: 2,
     }
 });
 

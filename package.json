@@ -22,6 +22,7 @@
     "react-native-gesture": "^0.2.0",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-image-filter-kit": "^0.7.3",
+    "react-native-notifications": "^3.3.0",
     "react-native-radial-gradient": "^1.0.7",
     "react-native-reanimated": "^1.9.0",
     "react-native-redash": "^14.1.1",
@@ -31,7 +32,11 @@
     "react-native-ticker": "^3.2.0",
     "react-native-waveview": "^1.1.0",
     "react-native-web": "~0.11.7",
-    "react-redux": "^7.2.0"
+    "react-redux": "^7.2.0",
+    "tslib": "^2.0.0",
+    "expo-notifications": "~0.3.3",
+    "expo-permissions": "~9.0.1",
+    "expo-constants": "~9.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
